@@ -12,11 +12,10 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ExerciseDTO {
 
+    private Long id;
     private String name;
     private String description;
     private String equipment;
-    private int repetitions;
     private MuscleGroup muscleGroup;
-    private double weight;
 
 }

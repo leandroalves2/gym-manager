@@ -21,9 +21,7 @@ public class Exercise {
     private String name;
     private String description;
     private String equipment;
-    private int repetitions;
     @Enumerated(EnumType.STRING)
     private MuscleGroup muscleGroup;
-    private double weight;
 
 }

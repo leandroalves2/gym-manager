@@ -3,6 +3,7 @@ package com.leogym.gym_manager.controller.exercise;
 import com.leogym.gym_manager.domain.dto.ExerciseDTO;
 import com.leogym.gym_manager.exception.BusinessException;
 import com.leogym.gym_manager.service.ExerciseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class ExercisePersistController {
     private final ExerciseService exerciseService;
 
     @PostMapping
-    public ResponseEntity<String> PersistController(@RequestBody ExerciseDTO dto) {
+    public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO dto) {
 
         try {
             exerciseService.saveExercise(dto);

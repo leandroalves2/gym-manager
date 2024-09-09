@@ -1,31 +1,30 @@
 package com.leogym.gym_manager.controller.progress;
 
 import com.leogym.gym_manager.domain.dto.ProgressDTO;
+import com.leogym.gym_manager.exception.BusinessException;
 import com.leogym.gym_manager.service.ProgressService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/progress")
-public class ProgressPersistController {
+public class ProgressReadController {
 
     private final ProgressService progressService;
 
-    @PostMapping
-    public ResponseEntity<String> PersistController(@Valid @RequestBody ProgressDTO dto) {
+    @GetMapping("/list")
+    public ResponseEntity<List<ProgressDTO>> listProgress() {
         try {
-            return ResponseEntity.ok(progressService.saveProgress(dto));
-        }catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.ok(progressService.listProgress());
+        } catch (BusinessException e) {
+            throw new BusinessException("Erro ao localizar os exercicios!");
         }
     }
-
-
-
+    
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/exercise")
-public class ExercisePersistController {
+public class ExerciseCreateAndUpdateController {
 
     private final ExerciseService exerciseService;
 

@@ -10,6 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class ProgressServiceImpl implements ProgressService {
@@ -27,6 +30,18 @@ public class ProgressServiceImpl implements ProgressService {
         } catch (Exception ex) {
             throw new BusinessException("Não foi possivel salvar o progresso!");
         }
+    }
+
+    @Override
+    public List<ProgressDTO> listProgress() {
+        List<Progress> listEntity = progressRepository.findAll();
+        List<ProgressDTO> listDto = new ArrayList<>();
+        for (Progress entity : listEntity) {
+            ProgressDTO dto = new ProgressDTO();
+            progressMapper.entityToDto(entity, dto);
+            listDto.add(dto);
+        }
+        return listDto;
     }
 
     void save(ProgressDTO dto, Progress entity) {

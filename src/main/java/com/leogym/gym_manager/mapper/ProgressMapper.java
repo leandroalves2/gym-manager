@@ -25,5 +25,11 @@ public class ProgressMapper {
             entity.setWeight(dto.getWeight());
     }
 
+    public void entityToDto(Progress entity, ProgressDTO dto) {
+        dto.setExerciseId(entity.getExercise().getId());
+        dto.setRepetitions(entity.getRepetitions());
+        dto.setWeight(entity.getWeight());
+    }
+
 
 }

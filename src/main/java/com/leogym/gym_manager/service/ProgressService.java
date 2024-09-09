@@ -9,4 +9,5 @@ public interface ProgressService {
 
     String saveProgress(ProgressDTO dto);
     List<ProgressDTO> listProgress();
+    ProgressDTO findById(Long id);
 }

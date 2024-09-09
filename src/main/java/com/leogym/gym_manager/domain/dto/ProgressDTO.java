@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ProgressDTO {
 
+    private Long id;
     @NotNull(message = "O exercicio não pode ser nulo")
     private Long exerciseId;
     private double weight;

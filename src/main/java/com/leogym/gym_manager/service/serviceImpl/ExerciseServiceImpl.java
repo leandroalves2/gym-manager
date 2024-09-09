@@ -37,20 +37,13 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
     }
 
-    private void saveExercise(ExerciseDTO dto, Exercise entity) {
-        mapper.dtoToEntity(dto, entity);
-        repository.save(entity);
-    }
-
     @Override
     public List<ExerciseDTO> listExercice() {
         try {
             List<Exercise> exerciseList = repository.findAll();
             List<ExerciseDTO> exerciseDTOList = new ArrayList<>();
             for (Exercise exercise : exerciseList) {
-                ExerciseDTO exerciseDTO = new ExerciseDTO();
-                mapper.entityToDto(exercise, exerciseDTO);
-                exerciseDTOList.add(exerciseDTO);
+                exerciseDTOList.add(toDto(exercise));
             }
             return exerciseDTOList;
         } catch (Exception e) {
@@ -62,9 +55,7 @@ public class ExerciseServiceImpl implements ExerciseService {
         Exercise entity = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
         try {
-            ExerciseDTO dto = new ExerciseDTO();
-            mapper.entityToDto(entity, dto);
-            return dto;
+            return toDto(entity);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao localizar o exercicio!");
         }
@@ -77,9 +68,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             throw new BusinessException("Exercicio não encontrado com o nome: " + name);
         }
         try {
-            ExerciseDTO dto = new ExerciseDTO();
-            mapper.entityToDto(entity, dto);
-            return dto;
+            return toDto(entity);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao localizar o exercicio!");
         }
@@ -95,4 +84,16 @@ public class ExerciseServiceImpl implements ExerciseService {
             throw new BusinessException("Erro ao deletar o exercicio!");
         }
     }
+
+    private void saveExercise(ExerciseDTO dto, Exercise entity) {
+        mapper.dtoToEntity(dto, entity);
+        repository.save(entity);
+    }
+
+    private ExerciseDTO toDto(Exercise entity) {
+        ExerciseDTO dto = new ExerciseDTO();
+        mapper.entityToDto(entity, dto);
+        return dto;
+    }
+
 }

@@ -6,6 +6,7 @@ import com.leogym.gym_manager.service.ProgressService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,8 +24,17 @@ public class ProgressReadController {
         try {
             return ResponseEntity.ok(progressService.listProgress());
         } catch (BusinessException e) {
-            throw new BusinessException("Erro ao localizar os exercicios!");
+            throw new BusinessException(e.getMessage());
         }
     }
-    
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<ProgressDTO> findProgressById(@PathVariable Long id) {
+        try {
+            return ResponseEntity.ok(progressService.findById(id));
+        } catch (BusinessException e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
 }

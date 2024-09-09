@@ -37,16 +37,32 @@ public class ProgressServiceImpl implements ProgressService {
         List<Progress> listEntity = progressRepository.findAll();
         List<ProgressDTO> listDto = new ArrayList<>();
         for (Progress entity : listEntity) {
-            ProgressDTO dto = new ProgressDTO();
-            progressMapper.entityToDto(entity, dto);
-            listDto.add(dto);
+            listDto.add(toDto(entity));
         }
         return listDto;
+    }
+
+    @Override
+    public ProgressDTO findById(Long id) {
+        Progress entity = progressRepository.findById(id)
+                .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + id)));
+        try {
+            return toDto(entity);
+        } catch (Exception ex) {
+            throw new BusinessException("Erro ao localizar o progresso!");
+        }
     }
 
     void save(ProgressDTO dto, Progress entity) {
         progressMapper.dtoToEntity(dto, entity);
         progressRepository.save(entity);
     }
+
+    ProgressDTO toDto(Progress entity) {
+        ProgressDTO dto = new ProgressDTO();
+        progressMapper.entityToDto(entity, dto);
+        return dto;
+    }
+
 
 }

@@ -20,15 +20,10 @@ public class ExercisePersistController {
 
     @PostMapping
     public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO dto) {
-
         try {
-            exerciseService.saveExercise(dto);
-            return ResponseEntity.ok("Exericio cadastrado com sucesso!");
+            return ResponseEntity.ok(exerciseService.saveOrUpdateExercise(dto));
         } catch (BusinessException be) {
             throw new BusinessException("Erro ao cadastrar exercicio!");
         }
-
     }
-
-
 }

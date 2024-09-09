@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,19 +24,27 @@ public class ExerciseServiceImpl implements ExerciseService {
 
 
     @Override
-    public void saveExercise(ExerciseDTO dto) {
-
-
+    public String saveOrUpdateExercise(ExerciseDTO dto) {
+        if(dto.getId() == null){
             Exercise entity = new Exercise();
-            mapper.dtoToEntity(dto, entity);
-            repository.save(entity);
+            saveExercise(dto, entity);
+            return "Exercicio cadastrado com sucesso!";
+        } else {
+            Exercise entity = repository.findById(dto.getId())
+                    .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + dto.getId()));
+            saveExercise(dto, entity);
+            return "Exercicio atualizado com sucesso!";
+        }
+    }
+
+    private void saveExercise(ExerciseDTO dto, Exercise entity) {
+        mapper.dtoToEntity(dto, entity);
+        repository.save(entity);
     }
 
     @Override
     public List<ExerciseDTO> listExercice() {
         try {
-
-
             List<Exercise> exerciseList = repository.findAll();
             List<ExerciseDTO> exerciseDTOList = new ArrayList<>();
             for (Exercise exercise : exerciseList) {
@@ -51,21 +58,30 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
     }
 
-    @Override
     public ExerciseDTO findById(Long id) {
-
+        Exercise entity = repository.findById(id)
+                .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
         try {
-
-            Exercise entity = repository.findById(id)
-                    .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
             ExerciseDTO dto = new ExerciseDTO();
             mapper.entityToDto(entity, dto);
             return dto;
-        } catch (BusinessException e) {
-            throw e;
-        } catch (Exception e) {
+        } catch (Exception ex) {
             throw new BusinessException("Erro ao localizar o exercicio!");
         }
+    }
 
+    @Override
+    public ExerciseDTO findyByName(String name) {
+        Exercise entity = repository.findByName(name);
+        if (entity == null){
+            throw new BusinessException("Exercicio não encontrado com o nome: " + name);
+        }
+        try {
+            ExerciseDTO dto = new ExerciseDTO();
+            mapper.entityToDto(entity, dto);
+            return dto;
+        } catch (Exception ex) {
+            throw new BusinessException("Erro ao localizar o exercicio!");
+        }
     }
 }

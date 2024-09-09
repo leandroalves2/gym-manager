@@ -15,23 +15,31 @@ public class ExerciseGetController {
 
     private final ExerciseService exerciseService;
 
-    @GetMapping("/find/list")
+    @GetMapping("/list")
     public List<ExerciseDTO> ListController() {
 
         try {
-            List<ExerciseDTO> list = exerciseService.listExercice();
-            return list;
-        } catch (BusinessException be) {
+            return exerciseService.listExercice();
+        } catch (BusinessException e) {
             throw new BusinessException("Erro ao localizar os exercicios!");
         }
     }
 
-    @GetMapping("/find/{id}")
+    @GetMapping("/id/{id}")
     public ExerciseDTO findById(@PathVariable Long id) {
         try {
             return exerciseService.findById(id);
-        } catch (BusinessException be) {
-            throw new BusinessException("Erro ao localizar o exercicio!");
+        } catch (BusinessException e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/name/{name}")
+    public ExerciseDTO findByName(@PathVariable String name) {
+        try {
+            return exerciseService.findyByName(name);
+        } catch (BusinessException e) {
+            throw new BusinessException(e.getMessage());
         }
     }
 

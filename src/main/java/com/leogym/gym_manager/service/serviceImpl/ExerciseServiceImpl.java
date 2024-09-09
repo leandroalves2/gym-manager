@@ -84,4 +84,15 @@ public class ExerciseServiceImpl implements ExerciseService {
             throw new BusinessException("Erro ao localizar o exercicio!");
         }
     }
+
+    @Override
+    public void deleteExercise(Long id) {
+        Exercise entity = repository.findById(id)
+                .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
+        try {
+            repository.delete(entity);
+        } catch (Exception ex) {
+            throw new BusinessException("Erro ao deletar o exercicio!");
+        }
+    }
 }

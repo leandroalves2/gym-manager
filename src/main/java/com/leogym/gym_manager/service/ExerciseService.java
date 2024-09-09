@@ -12,5 +12,6 @@ public interface ExerciseService {
     List<ExerciseDTO> listExercice();
     ExerciseDTO findById(Long id);
     ExerciseDTO findyByName(String name);
+    void deleteExercise(Long id);
 
 }

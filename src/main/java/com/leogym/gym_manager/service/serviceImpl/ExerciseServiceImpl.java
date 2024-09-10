@@ -24,15 +24,15 @@ public class ExerciseServiceImpl implements ExerciseService {
 
 
     @Override
-    public String saveOrUpdateExercise(ExerciseDTO dto) {
-        if(dto.getId() == null){
-            Exercise entity = new Exercise();
-            saveExercise(dto, entity);
+    public String saveOrUpdateExercise(ExerciseDTO exerciseDTO) {
+        if(exerciseDTO.getId() == null){
+            Exercise exerciseEntity = new Exercise();
+            saveExercise(exerciseDTO, exerciseEntity);
             return "Exercicio cadastrado com sucesso!";
         } else {
-            Exercise entity = repository.findById(dto.getId())
-                    .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + dto.getId()));
-            saveExercise(dto, entity);
+            Exercise entity = repository.findById(exerciseDTO.getId())
+                    .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + exerciseDTO.getId()));
+            saveExercise(exerciseDTO, entity);
             return "Exercicio atualizado com sucesso!";
         }
     }
@@ -52,10 +52,10 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     public ExerciseDTO findById(Long id) {
-        Exercise entity = repository.findById(id)
+        Exercise exerciseEntity = repository.findById(id)
                 .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
         try {
-            return toDto(entity);
+            return toDto(exerciseEntity);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao localizar o exercicio!");
         }
@@ -63,12 +63,12 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public ExerciseDTO findyByName(String name) {
-        Exercise entity = repository.findByName(name);
-        if (entity == null){
+        Exercise exerciseEntity = repository.findByName(name);
+        if (exerciseEntity == null){
             throw new BusinessException("Exercicio não encontrado com o nome: " + name);
         }
         try {
-            return toDto(entity);
+            return toDto(exerciseEntity);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao localizar o exercicio!");
         }
@@ -83,15 +83,15 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
     }
 
-    private void saveExercise(ExerciseDTO dto, Exercise entity) {
-        mapper.dtoToEntity(dto, entity);
-        repository.save(entity);
+    private void saveExercise(ExerciseDTO exerciseDTO, Exercise exerciseEntity) {
+        mapper.dtoToEntity(exerciseDTO, exerciseEntity);
+        repository.save(exerciseEntity);
     }
 
-    private ExerciseDTO toDto(Exercise entity) {
-        ExerciseDTO dto = new ExerciseDTO();
-        mapper.entityToDto(entity, dto);
-        return dto;
+    private ExerciseDTO toDto(Exercise exerciseEntity) {
+        ExerciseDTO exerciseDTO = new ExerciseDTO();
+        mapper.entityToDto(exerciseEntity, exerciseDTO);
+        return exerciseDTO;
     }
 
 }

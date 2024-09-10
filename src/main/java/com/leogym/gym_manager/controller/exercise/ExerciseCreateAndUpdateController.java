@@ -19,9 +19,9 @@ public class ExerciseCreateAndUpdateController {
     private final ExerciseService exerciseService;
 
     @PostMapping
-    public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO dto) {
+    public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO exerciseDTO) {
         try {
-            return ResponseEntity.ok(exerciseService.saveOrUpdateExercise(dto));
+            return ResponseEntity.ok(exerciseService.saveOrUpdateExercise(exerciseDTO));
         } catch (BusinessException be) {
             throw new BusinessException("Erro ao cadastrar exercicio!");
         }

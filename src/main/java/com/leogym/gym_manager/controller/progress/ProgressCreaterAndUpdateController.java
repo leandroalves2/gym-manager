@@ -18,9 +18,9 @@ public class ProgressCreaterAndUpdateController {
     private final ProgressService progressService;
 
     @PostMapping
-    public ResponseEntity<String> PersistController(@Valid @RequestBody ProgressDTO dto) {
+    public ResponseEntity<String> PersistController(@Valid @RequestBody ProgressDTO progressDTO) {
         try {
-            return ResponseEntity.ok(progressService.saveOrUpdateProgress(dto));
+            return ResponseEntity.ok(progressService.saveOrUpdateProgress(progressDTO));
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

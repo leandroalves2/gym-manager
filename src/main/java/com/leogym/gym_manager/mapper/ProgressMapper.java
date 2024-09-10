@@ -4,7 +4,8 @@ import com.leogym.gym_manager.domain.dto.ExerciseDTO;
 import com.leogym.gym_manager.domain.dto.ProgressDTO;
 import com.leogym.gym_manager.domain.entities.Exercise;
 import com.leogym.gym_manager.domain.entities.Progress;
-import com.leogym.gym_manager.service.ExerciseService;
+import com.leogym.gym_manager.exception.BusinessException;
+import com.leogym.gym_manager.repository.ExerciseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,25 +13,24 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProgressMapper {
 
-    private final ExerciseService exerciseService;
-    private final ExerciseMapper exerciseMapper;
+    private final ExerciseRepository exerciseRepository;
 
 
-    public void dtoToEntity(ProgressDTO dto, Progress entity) {
-            ExerciseDTO exercisedto = exerciseService.findById(dto.getExerciseId());
-            Exercise exerciseEntity = new Exercise();
-            exerciseMapper.dtoToEntity(exercisedto, exerciseEntity);
-            entity.setExercise(exerciseEntity);
-            entity.setWeight(dto.getWeight());
-            entity.setRepetitions( dto.getRepetitions());
+    public void dtoToEntity(ProgressDTO progressDTO, Progress progressEntity) {
+        Exercise exerciseEntity = exerciseRepository.findById(progressDTO.getExerciseId())
+                .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " +
+                        progressDTO.getExerciseId()));
+        progressEntity.setExercise(exerciseEntity);
+        progressEntity.setWeight(progressDTO.getWeight());
+        progressEntity.setRepetitions( progressDTO.getRepetitions());
     }
 
-    public void entityToDto(Progress entity, ProgressDTO dto) {
-        dto.setId(entity.getId());
-        dto.setExerciseId(entity.getExercise().getId());
-        entity.setSets(dto.getSets());
-        dto.setWeight(entity.getWeight());
-        dto.setRepetitions(entity.getRepetitions());
+    public void entityToDto(Progress progressEntity, ProgressDTO progressDTO) {
+        progressDTO.setId(progressEntity.getId());
+        progressDTO.setExerciseId(progressEntity.getExercise().getId());
+        progressEntity.setSets(progressDTO.getSets());
+        progressDTO.setWeight(progressEntity.getWeight());
+        progressDTO.setRepetitions(progressEntity.getRepetitions());
     }
 
 

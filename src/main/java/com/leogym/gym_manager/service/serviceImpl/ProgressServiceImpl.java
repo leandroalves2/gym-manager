@@ -22,20 +22,20 @@ public class ProgressServiceImpl implements ProgressService {
     private final ProgressRepository progressRepository;
 
     @Override
-    public String saveOrUpdateProgress(ProgressDTO dto) {
-        if(dto.getId() == null) {
+    public String saveOrUpdateProgress(ProgressDTO progressDTO) {
+        if(progressDTO.getId() == null) {
             try {
-                Progress entity = new Progress();
-                save(dto, entity);
+                Progress progressEntity = new Progress();
+                save(progressDTO, progressEntity);
                 return "Progresso salvo com sucesso!";
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel salvar o progresso!");
             }
         } else {
             try {
-                Progress entity = progressRepository.findById(dto.getId())
-                        .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + dto.getId())));
-                save(dto, entity);
+                Progress progressEntity = progressRepository.findById(progressDTO.getId())
+                        .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
+                save(progressDTO, progressEntity);
                 return "Progresso atualizado com sucesso!";
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel atualizar o progresso!");
@@ -55,10 +55,10 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     public ProgressDTO findById(Long id) {
-        Progress entity = progressRepository.findById(id)
+        Progress progressEntity = progressRepository.findById(id)
                 .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + id)));
         try {
-            return toDto(entity);
+            return toDto(progressEntity);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao localizar o progresso!");
         }
@@ -75,15 +75,15 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
 
-    void save(ProgressDTO dto, Progress entity) {
-        progressMapper.dtoToEntity(dto, entity);
-        progressRepository.save(entity);
+    void save(ProgressDTO progressDTO, Progress progressEntity) {
+        progressMapper.dtoToEntity(progressDTO, progressEntity);
+        progressRepository.save(progressEntity);
     }
 
-    ProgressDTO toDto(Progress entity) {
-        ProgressDTO dto = new ProgressDTO();
-        progressMapper.entityToDto(entity, dto);
-        return dto;
+    ProgressDTO toDto(Progress progressEntity) {
+        ProgressDTO progressDTO = new ProgressDTO();
+        progressMapper.entityToDto(progressEntity, progressDTO);
+        return progressDTO;
     }
 
 

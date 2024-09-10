@@ -7,21 +7,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExerciseMapper {
 
-    public void dtoToEntity(ExerciseDTO dto, Exercise entity) {
-        if(dto.getId() != null) {
-            entity.setId(dto.getId());
+    public void dtoToEntity(ExerciseDTO exerciseDTO, Exercise exerciseEntity) {
+        if(exerciseDTO.getId() != null) {
+            exerciseEntity.setId(exerciseDTO.getId());
         }
-        entity.setName(dto.getName());
-        entity.setDescription(dto.getDescription());
-        entity.setEquipment(dto.getEquipment());
-        entity.setMuscleGroup(dto.getMuscleGroup());
+        exerciseEntity.setName(exerciseDTO.getName());
+        exerciseEntity.setDescription(exerciseDTO.getDescription());
+        exerciseEntity.setEquipment(exerciseDTO.getEquipment());
+        exerciseEntity.setMuscleGroup(exerciseDTO.getMuscleGroup());
     }
 
-    public void entityToDto(Exercise entity, ExerciseDTO dto) {
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setDescription(entity.getDescription());
-        dto.setEquipment(entity.getEquipment());
-        dto.setMuscleGroup(entity.getMuscleGroup());
+    public void entityToDto(Exercise exerciseEntity, ExerciseDTO exerciseDTO) {
+        exerciseDTO.setId(exerciseEntity.getId());
+        exerciseDTO.setName(exerciseEntity.getName());
+        exerciseDTO.setDescription(exerciseEntity.getDescription());
+        exerciseDTO.setEquipment(exerciseEntity.getEquipment());
+        exerciseDTO.setMuscleGroup(exerciseEntity.getMuscleGroup());
     }
 }

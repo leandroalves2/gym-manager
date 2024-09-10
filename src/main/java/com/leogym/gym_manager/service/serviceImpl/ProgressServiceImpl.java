@@ -22,13 +22,24 @@ public class ProgressServiceImpl implements ProgressService {
     private final ProgressRepository progressRepository;
 
     @Override
-    public String saveProgress(ProgressDTO dto) {
-        try {
-            Progress entity = new Progress();
-            save(dto, entity);
-            return "Progresso salvo com sucesso!";
-        } catch (Exception ex) {
-            throw new BusinessException("Não foi possivel salvar o progresso!");
+    public String saveOrUpdateProgress(ProgressDTO dto) {
+        if(dto.getId() == null) {
+            try {
+                Progress entity = new Progress();
+                save(dto, entity);
+                return "Progresso salvo com sucesso!";
+            } catch (Exception ex) {
+                throw new BusinessException("Não foi possivel salvar o progresso!");
+            }
+        } else {
+            try {
+                Progress entity = progressRepository.findById(dto.getId())
+                        .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + dto.getId())));
+                save(dto, entity);
+                return "Progresso atualizado com sucesso!";
+            } catch (Exception ex) {
+                throw new BusinessException("Não foi possivel atualizar o progresso!");
+            }
         }
     }
 
@@ -52,6 +63,17 @@ public class ProgressServiceImpl implements ProgressService {
             throw new BusinessException("Erro ao localizar o progresso!");
         }
     }
+
+    @Override
+    public String deleteProgress(Long id) {
+        try {
+            progressRepository.deleteById(id);
+            return "Progresso deletado com sucesso!";
+        } catch (Exception ex) {
+            throw new BusinessException("Erro deletar o progresso!");
+        }
+    }
+
 
     void save(ProgressDTO dto, Progress entity) {
         progressMapper.dtoToEntity(dto, entity);

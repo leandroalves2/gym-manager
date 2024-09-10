@@ -19,6 +19,7 @@ public class Progress {
     @OneToOne
     @JoinColumn(name = "exercicio_id", referencedColumnName = "id")
     private Exercise exercise;
+    private int sets;
     private double weight;
     private int repetitions;
 

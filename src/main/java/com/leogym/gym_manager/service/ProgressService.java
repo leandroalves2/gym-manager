@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ProgressService {
 
-    String saveProgress(ProgressDTO dto);
+    String saveOrUpdateProgress(ProgressDTO dto);
     List<ProgressDTO> listProgress();
     ProgressDTO findById(Long id);
+    String deleteProgress(Long id);
 }

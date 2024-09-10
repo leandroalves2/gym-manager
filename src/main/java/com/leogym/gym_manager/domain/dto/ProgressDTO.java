@@ -15,6 +15,7 @@ public class ProgressDTO {
     private Long id;
     @NotNull(message = "O exercicio não pode ser nulo")
     private Long exerciseId;
+    private int sets;
     private double weight;
     private int repetitions;
 

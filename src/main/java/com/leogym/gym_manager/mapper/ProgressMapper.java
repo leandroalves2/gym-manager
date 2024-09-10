@@ -21,15 +21,16 @@ public class ProgressMapper {
             Exercise exerciseEntity = new Exercise();
             exerciseMapper.dtoToEntity(exercisedto, exerciseEntity);
             entity.setExercise(exerciseEntity);
-            entity.setRepetitions( dto.getRepetitions());
             entity.setWeight(dto.getWeight());
+            entity.setRepetitions( dto.getRepetitions());
     }
 
     public void entityToDto(Progress entity, ProgressDTO dto) {
         dto.setId(entity.getId());
         dto.setExerciseId(entity.getExercise().getId());
-        dto.setRepetitions(entity.getRepetitions());
+        entity.setSets(dto.getSets());
         dto.setWeight(entity.getWeight());
+        dto.setRepetitions(entity.getRepetitions());
     }
 
 

@@ -76,10 +76,8 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void deleteExercise(Long id) {
-        Exercise entity = repository.findById(id)
-                .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
         try {
-            repository.delete(entity);
+            repository.deleteById(id);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao deletar o exercicio!");
         }

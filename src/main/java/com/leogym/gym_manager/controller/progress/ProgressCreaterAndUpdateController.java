@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/progress")
-public class ProgressCreaterController {
+public class ProgressCreaterAndUpdateController {
 
     private final ProgressService progressService;
 
     @PostMapping
     public ResponseEntity<String> PersistController(@Valid @RequestBody ProgressDTO dto) {
         try {
-            return ResponseEntity.ok(progressService.saveProgress(dto));
+            return ResponseEntity.ok(progressService.saveOrUpdateProgress(dto));
         }catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

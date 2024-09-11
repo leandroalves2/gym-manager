@@ -19,6 +19,7 @@ public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+    private String name;
     private Date data;
     @OneToMany(cascade = CascadeType.ALL)
     private List<Progress> progressList;

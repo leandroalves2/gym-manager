@@ -9,6 +9,9 @@ import com.leogym.gym_manager.service.WorkoutService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class WorkoutServiceImpl implements WorkoutService {
@@ -27,4 +30,44 @@ public class WorkoutServiceImpl implements WorkoutService {
             throw new BusinessException("Não foi possivel salvar o treino!");
         }
     }
+
+    @Override
+    public List<WorkoutDTO> listWorkout() {
+        try {
+            List<Workout> workoutList = workoutRepository.findAll();
+            List<WorkoutDTO> workoutDTOList = new ArrayList<>();
+            for (Workout workout : workoutList) {
+                WorkoutDTO workoutDTO = new WorkoutDTO();
+                workoutMapper.entityToDto(workout, workoutDTO);
+                workoutDTOList.add(workoutDTO);
+            }
+            return workoutDTOList;
+        } catch (Exception ex) {
+            throw new BusinessException("Não foi possivel salvar o treino!");
+        }
+
+    }
+
+    @Override
+    public WorkoutDTO findById(Long id) {
+        Workout workoutEntity = workoutRepository.findById(id)
+                .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + id));
+        return save(workoutEntity);
+    }
+
+    @Override
+    public WorkoutDTO findByName(String name) {
+        Workout workoutEntity = workoutRepository.findByName(name);
+        if (workoutEntity == null) {
+            throw new BusinessException("Treino não encontrado com o nome: " + name);
+        }
+        return save(workoutEntity);
+    }
+
+    private WorkoutDTO save(Workout workoutEntity) {
+        WorkoutDTO workoutDTO = new WorkoutDTO();
+        workoutMapper.entityToDto(workoutEntity, workoutDTO);
+        return workoutDTO;
+    }
+
 }

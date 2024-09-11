@@ -16,6 +16,7 @@ classDiagram
     }
 
     class Workout {
+        +String name
         +List<Progress> progress
         +addProgress(p: Progress): void
         +removeProgress(p: Progress): void
@@ -34,13 +35,6 @@ classDiagram
         +Exercise exercise
         +double weightLifted
         +int repsCompleted
-    }
-
-    class Plan {
-        +String name
-        +List<Workout> workouts
-        +addWorkout(w: Workout): void
-        +removeWorkout(w: Workout): void
     }
 
     class Goal {
@@ -62,6 +56,5 @@ classDiagram
     Workout "1" -- "0..*" Progress : tracks
     Progress "1" -- "1" Exercise : refers to
     User "1" -- "0..*" Goal : defines
-    User "1" -- "0..*" Plan : follows
     Exercise --> MuscleGroup
 ```

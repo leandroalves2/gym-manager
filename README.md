@@ -33,8 +33,9 @@ classDiagram
 
     class Progress {
         +Exercise exercise
-        +double weightLifted
-        +int repsCompleted
+        +int sets
+        +double weight
+        +int repetitions
     }
 
     class Goal {

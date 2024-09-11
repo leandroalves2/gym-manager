@@ -17,6 +17,6 @@ public class WorkoutDTO {
     private Long id;
     private String name;
     private Date data;
-    private List<ProgressDTO> progressDTOList;
+    private List<Long> progressDTOList;
 
 }

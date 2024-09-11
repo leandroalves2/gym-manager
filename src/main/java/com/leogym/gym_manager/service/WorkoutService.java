@@ -10,5 +10,6 @@ public interface WorkoutService {
     List<WorkoutDTO> listWorkout();
     WorkoutDTO findById(Long id);
     WorkoutDTO findByName(String name);
+    String deleteWorkoutById(Long id);
 
 }

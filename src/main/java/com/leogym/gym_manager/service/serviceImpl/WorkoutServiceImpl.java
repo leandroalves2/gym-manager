@@ -69,6 +69,16 @@ public class WorkoutServiceImpl implements WorkoutService {
         return toDto(workoutEntity);
     }
 
+    @Override
+    public String deleteWorkoutById(Long id) {
+        try {
+            workoutRepository.deleteById(id);
+            return "Treino deletado com sucesso!";
+        } catch (Exception ex) {
+            throw new BusinessException("Não foi possivel salvar o treino!");
+        }
+    }
+
     public void save(WorkoutDTO workoutDTO, Workout workoutEntity) {
         workoutMapper.dtoToEntity(workoutDTO, workoutEntity);
         workoutRepository.save(workoutEntity);

@@ -22,6 +22,7 @@ public class Workout {
     private String name;
     private Date data;
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Progress> progressList;
+    @JoinColumn(name = "progress_id", referencedColumnName = "id")
+    private List<Progress> progressIdList;
 
 }

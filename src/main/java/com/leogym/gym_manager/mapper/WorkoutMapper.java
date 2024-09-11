@@ -6,11 +6,9 @@ import com.leogym.gym_manager.domain.entities.Progress;
 import com.leogym.gym_manager.domain.entities.Workout;
 import com.leogym.gym_manager.exception.BusinessException;
 import com.leogym.gym_manager.repository.ProgressRepository;
-import com.leogym.gym_manager.repository.WorkoutRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.swing.plaf.ProgressBarUI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,24 +26,24 @@ public class WorkoutMapper {
         workoutEntity.setName(workoutDTO.getName());
         workoutEntity.setData(workoutDTO.getData());
         List<Progress> progressList = new ArrayList<>();
-        for(ProgressDTO progressDTO : workoutDTO.getProgressDTOList()) {
-            Progress progressEntity = progressRepository.findById(progressDTO.getId())
-                    .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
+        for(Long progressDTOId : workoutDTO.getProgressDTOList()) {
+            Progress progressEntity = progressRepository.findById(progressDTOId)
+                    .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + progressDTOId)));
             progressList.add(progressEntity);
         }
-        workoutEntity.setProgressList(progressList);
+        workoutEntity.setProgressIdList(progressList);
     }
 
     public void entityToDto(Workout workoutEntity, WorkoutDTO workoutDTO) {
         workoutDTO.setId(workoutEntity.getId());
         workoutDTO.setName(workoutEntity.getName());
         workoutDTO.setData(workoutEntity.getData());
-        List<ProgressDTO> progressDTOList = new ArrayList<>();
-        for(Progress progress : workoutEntity.getProgressList()) {
+        List<Long> progressDTOIdList = new ArrayList<>();
+        for(Progress progress : workoutEntity.getProgressIdList()) {
             ProgressDTO progressDTO = new ProgressDTO();
             progressMapper.entityToDto(progress, progressDTO);
-            progressDTOList.add(progressDTO);
+            progressDTOIdList.add(progressDTO.getId());
         }
-        workoutDTO.setProgressDTOList(progressDTOList);
+        workoutDTO.setProgressDTOList(progressDTOIdList);
     }
 }

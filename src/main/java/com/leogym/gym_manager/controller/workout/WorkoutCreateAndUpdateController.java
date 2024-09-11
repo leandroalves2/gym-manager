@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/workout")
-public class WorkoutCreaterController {
+public class WorkoutCreateAndUpdateController {
 
     private final WorkoutService workoutService;
 
     @PostMapping
     public ResponseEntity<String> createWorkout(@RequestBody WorkoutDTO workoutDTO) {
         try {
-            workoutService.saveWorkout(workoutDTO);
-            return ResponseEntity.ok("Exercicio salvo com sucesso!");
+            return ResponseEntity.ok(workoutService.saveOrUpdateWorkout(workoutDTO));
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage());
         }

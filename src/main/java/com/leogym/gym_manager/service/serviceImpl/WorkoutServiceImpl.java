@@ -20,12 +20,18 @@ public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
 
     @Override
-    public String saveWorkout(WorkoutDTO workoutDTO) {
+    public String saveOrUpdateWorkout(WorkoutDTO workoutDTO) {
         try {
-            Workout workoutEntity = new Workout();
-            workoutMapper.dtoToEntity(workoutDTO, workoutEntity);
-            workoutRepository.save(workoutEntity);
-            return "Treino salvo com sucesso!";
+            if(workoutDTO.getId() == null) {
+                Workout workoutEntity = new Workout();
+                save(workoutDTO, workoutEntity);
+                return "Treino salvo com sucesso!";
+            } else {
+                Workout workoutEntity = workoutRepository.findById(workoutDTO.getId())
+                        .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + workoutDTO.getId()));
+                save(workoutDTO, workoutEntity);
+                return "Treino atualizado com sucesso!";
+            }
         } catch (Exception ex) {
             throw new BusinessException("Não foi possivel salvar o treino!");
         }
@@ -45,14 +51,13 @@ public class WorkoutServiceImpl implements WorkoutService {
         } catch (Exception ex) {
             throw new BusinessException("Não foi possivel salvar o treino!");
         }
-
     }
 
     @Override
     public WorkoutDTO findById(Long id) {
         Workout workoutEntity = workoutRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + id));
-        return save(workoutEntity);
+        return toDto(workoutEntity);
     }
 
     @Override
@@ -61,10 +66,15 @@ public class WorkoutServiceImpl implements WorkoutService {
         if (workoutEntity == null) {
             throw new BusinessException("Treino não encontrado com o nome: " + name);
         }
-        return save(workoutEntity);
+        return toDto(workoutEntity);
     }
 
-    private WorkoutDTO save(Workout workoutEntity) {
+    public void save(WorkoutDTO workoutDTO, Workout workoutEntity) {
+        workoutMapper.dtoToEntity(workoutDTO, workoutEntity);
+        workoutRepository.save(workoutEntity);
+    }
+
+    private WorkoutDTO toDto(Workout workoutEntity) {
         WorkoutDTO workoutDTO = new WorkoutDTO();
         workoutMapper.entityToDto(workoutEntity, workoutDTO);
         return workoutDTO;

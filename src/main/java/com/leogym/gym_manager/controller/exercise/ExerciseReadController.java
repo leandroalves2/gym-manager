@@ -21,7 +21,7 @@ public class ExerciseReadController {
         try {
             return exerciseService.listExercice();
         } catch (BusinessException e) {
-            throw new BusinessException("Erro ao localizar os exercicios!");
+            throw new BusinessException(e.getMessage());
         }
     }
 

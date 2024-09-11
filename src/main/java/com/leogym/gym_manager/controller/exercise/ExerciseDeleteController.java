@@ -17,14 +17,23 @@ public class ExerciseDeleteController {
     private final ExerciseService exerciseService;
 
     @DeleteMapping("/delete/id/{id}")
-    public ResponseEntity<String> deleteExercise (@PathVariable Long id) {
+    public ResponseEntity<String> deleteExerciseId (@PathVariable Long id) {
         try {
-            exerciseService.deleteExercise(id);
+            exerciseService.deleteExerciseById(id);
             return ResponseEntity.ok("Exercicio deletado com sucesso!");
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
     }
 
+    @DeleteMapping("/delete/name/{name}")
+    public ResponseEntity<String> deleteExerciseName (@PathVariable String name) {
+        try {
+            exerciseService.deleteExerciseByName(name);
+            return ResponseEntity.ok("Exercicio deletado com sucesso!");
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
+        }
+    }
 
 }

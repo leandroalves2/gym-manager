@@ -75,9 +75,19 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public void deleteExercise(Long id) {
+    public void deleteExerciseById(Long id) {
         try {
             repository.deleteById(id);
+        } catch (Exception ex) {
+            throw new BusinessException("Erro ao deletar o exercicio!");
+        }
+    }
+
+    @Override
+    public void deleteExerciseByName(String name) {
+        try {
+            Exercise exerciseEntity = repository.findByName(name);
+            repository.deleteById(exerciseEntity.getId());
         } catch (Exception ex) {
             throw new BusinessException("Erro ao deletar o exercicio!");
         }

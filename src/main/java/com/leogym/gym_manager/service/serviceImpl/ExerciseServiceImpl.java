@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 @AllArgsConstructor
 public class ExerciseServiceImpl implements ExerciseService {
@@ -24,16 +26,14 @@ public class ExerciseServiceImpl implements ExerciseService {
 
 
     @Override
-    public String saveOrUpdateExercise(ExerciseDTO exerciseDTO) {
-        if(exerciseDTO.getId() == null){
+    public void saveOrUpdateExercise(ExerciseDTO exerciseDTO) {
+        if(isNull(exerciseDTO.getId())){
             Exercise exerciseEntity = new Exercise();
             saveExercise(exerciseDTO, exerciseEntity);
-            return "Exercicio cadastrado com sucesso!";
         } else {
             Exercise entity = repository.findById(exerciseDTO.getId())
                     .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + exerciseDTO.getId()));
             saveExercise(exerciseDTO, entity);
-            return "Exercicio atualizado com sucesso!";
         }
     }
 

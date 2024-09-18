@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 @AllArgsConstructor
 public class WorkoutServiceImpl implements WorkoutService {
@@ -20,17 +22,15 @@ public class WorkoutServiceImpl implements WorkoutService {
     private final WorkoutRepository workoutRepository;
 
     @Override
-    public String saveOrUpdateWorkout(WorkoutDTO workoutDTO) {
+    public void saveOrUpdateWorkout(WorkoutDTO workoutDTO) {
         try {
-            if(workoutDTO.getId() == null) {
+            if(isNull(workoutDTO.getId())) {
                 Workout workoutEntity = new Workout();
                 save(workoutDTO, workoutEntity);
-                return "Treino salvo com sucesso!";
             } else {
                 Workout workoutEntity = workoutRepository.findById(workoutDTO.getId())
                         .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + workoutDTO.getId()));
                 save(workoutDTO, workoutEntity);
-                return "Treino atualizado com sucesso!";
             }
         } catch (Exception ex) {
             throw new BusinessException("Não foi possivel salvar o treino!");

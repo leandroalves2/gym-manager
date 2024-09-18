@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ExerciseService {
 
-    String saveOrUpdateExercise(ExerciseDTO exerciseDTO);
+    void saveOrUpdateExercise(ExerciseDTO exerciseDTO);
 
     List<ExerciseDTO> listExercice();
     ExerciseDTO findById(Long id);

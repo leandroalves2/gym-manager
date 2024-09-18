@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 @AllArgsConstructor
 public class ProgressServiceImpl implements ProgressService {
@@ -22,12 +24,11 @@ public class ProgressServiceImpl implements ProgressService {
     private final ProgressRepository progressRepository;
 
     @Override
-    public String saveOrUpdateProgress(ProgressDTO progressDTO) {
-        if(progressDTO.getId() == null) {
+    public void saveOrUpdateProgress(ProgressDTO progressDTO) {
+        if(isNull(progressDTO.getId())) {
             try {
                 Progress progressEntity = new Progress();
                 save(progressDTO, progressEntity);
-                return "Progresso salvo com sucesso!";
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel salvar o progresso!");
             }
@@ -36,7 +37,6 @@ public class ProgressServiceImpl implements ProgressService {
                 Progress progressEntity = progressRepository.findById(progressDTO.getId())
                         .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
                 save(progressDTO, progressEntity);
-                return "Progresso atualizado com sucesso!";
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel atualizar o progresso!");
             }

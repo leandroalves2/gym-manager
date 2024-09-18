@@ -5,11 +5,14 @@ import com.leogym.gym_manager.exception.BusinessException;
 import com.leogym.gym_manager.service.ExerciseService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Objects;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,10 +23,11 @@ public class ExerciseCreateAndUpdateController {
 
     @PostMapping
     public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO exerciseDTO) {
-        try {
-            return ResponseEntity.ok(exerciseService.saveOrUpdateExercise(exerciseDTO));
-        } catch (BusinessException e) {
-            throw new BusinessException(e.getMessage());
+
+        exerciseService.saveOrUpdateExercise(exerciseDTO);
+        if(Objects.isNull(exerciseDTO.getId())) {
+            return new ResponseEntity<>("Exercicio cadastrado com sucesso!", HttpStatus.CREATED);
         }
+        return new ResponseEntity<>("Exercicio atualizado com sucesso!", HttpStatus.ACCEPTED);
     }
 }

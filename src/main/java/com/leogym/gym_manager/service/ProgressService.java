@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProgressService {
 
-    String saveOrUpdateProgress(ProgressDTO dto);
+    void saveOrUpdateProgress(ProgressDTO dto);
     List<ProgressDTO> listProgress();
     ProgressDTO findById(Long id);
     String deleteProgress(Long id);

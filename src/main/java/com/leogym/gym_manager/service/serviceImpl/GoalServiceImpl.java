@@ -9,6 +9,9 @@ import com.leogym.gym_manager.service.GoalService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class GoalServiceImpl implements GoalService {
@@ -39,4 +42,21 @@ public class GoalServiceImpl implements GoalService {
             throw new BusinessException("Não foi possivel encontrar a meta!");
         }
     }
+
+    @Override
+    public List<GoalDTO> listGoal() {
+        try {
+            List<Goal> goalEntityList = goalRepository.findAll();
+            List<GoalDTO> goalDTOList = new ArrayList<>();
+            for(Goal goal : goalEntityList) {
+                GoalDTO goalDTO = new GoalDTO();
+                goalMapper.entityToDto(goal, goalDTO);
+                goalDTOList.add(goalDTO);
+            }
+            return goalDTOList;
+        } catch (Exception e) {
+            throw new BusinessException("Não foi possivel listar as meta!");
+        }
+    }
+
 }

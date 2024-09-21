@@ -26,4 +26,17 @@ public class GoalServiceImpl implements GoalService {
             throw new BusinessException("Não foi possivel cadastrar a meta!");
         }
     }
+
+    @Override
+    public GoalDTO getGoalById(Long id) {
+        try {
+            Goal goalEntity = goalRepository.findById(id)
+                    .orElseThrow(() -> new BusinessException("Meta não encontrada com o id: " + id));
+            GoalDTO goalDTO = new GoalDTO();
+            goalMapper.entityToDto(goalEntity, goalDTO);
+            return goalDTO;
+        } catch (Exception e) {
+            throw new BusinessException("Não foi possivel encontrar a meta!");
+        }
+    }
 }

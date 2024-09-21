@@ -12,4 +12,11 @@ public class GoalMapper {
         goalEntity.setTargetDate(goalDTO.getTargetDate());
         goalEntity.setCompleted(goalDTO.isCompleted());
     }
+
+    public void entityToDto(Goal goalEntity, GoalDTO goalDTO) {
+        goalDTO.setDescription(goalEntity.getDescription());
+        goalDTO.setTargetDate(goalEntity.getTargetDate());
+        goalDTO.setCompleted(goalEntity.isCompleted());
+    }
+
 }

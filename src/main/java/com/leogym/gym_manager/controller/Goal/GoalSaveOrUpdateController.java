@@ -11,18 +11,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static java.util.Objects.isNull;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/goal")
-public class GoalSaveController {
+public class GoalSaveOrUpdateController {
 
     private final GoalService goalService;
 
     @PostMapping
     public ResponseEntity<String> saveGoal(@RequestBody GoalDTO goalDTO) {
         try {
-            goalService.saveGoal(goalDTO);
-            return new ResponseEntity<>("Meta cadastrada com sucesso!", HttpStatus.CREATED);
+            goalService.saveOrUpdateGoal(goalDTO);
+            if (isNull(goalDTO.getId())) {
+                return new ResponseEntity<>("Meta cadastrada com sucesso!", HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>("Meta atualizada com sucesso!", HttpStatus.ACCEPTED);
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }

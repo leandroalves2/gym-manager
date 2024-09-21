@@ -23,18 +23,22 @@ public class WorkoutServiceImpl implements WorkoutService {
 
     @Override
     public void saveOrUpdateWorkout(WorkoutDTO workoutDTO) {
-        try {
-            if(isNull(workoutDTO.getId())) {
+        if (isNull(workoutDTO.getId())) {
+            try {
                 Workout workoutEntity = new Workout();
                 save(workoutDTO, workoutEntity);
-            } else {
-                Workout workoutEntity = workoutRepository.findById(workoutDTO.getId())
-                        .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + workoutDTO.getId()));
-                save(workoutDTO, workoutEntity);
+            } catch (Exception e) {
+                throw new BusinessException("Não foi possivel cadastrar a meta!");
             }
-        } catch (Exception ex) {
-            throw new BusinessException("Não foi possivel salvar o treino!");
         }
+        try {
+            Workout workoutEntity = workoutRepository.findById(workoutDTO.getId())
+                    .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + workoutDTO.getId()));
+            save(workoutDTO, workoutEntity);
+        } catch (Exception e) {
+            throw new BusinessException("Não foi possivel cadastrar a meta!");
+        }
+
     }
 
     @Override

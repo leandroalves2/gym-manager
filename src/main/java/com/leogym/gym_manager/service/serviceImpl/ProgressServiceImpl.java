@@ -25,21 +25,20 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     public void saveOrUpdateProgress(ProgressDTO progressDTO) {
-        if(isNull(progressDTO.getId())) {
+        if (isNull(progressDTO.getId())) {
             try {
                 Progress progressEntity = new Progress();
                 save(progressDTO, progressEntity);
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel salvar o progresso!");
             }
-        } else {
-            try {
-                Progress progressEntity = progressRepository.findById(progressDTO.getId())
-                        .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
-                save(progressDTO, progressEntity);
-            } catch (Exception ex) {
-                throw new BusinessException("Não foi possivel atualizar o progresso!");
-            }
+        }
+        try {
+            Progress progressEntity = progressRepository.findById(progressDTO.getId())
+                    .orElseThrow((() -> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
+            save(progressDTO, progressEntity);
+        } catch (Exception ex) {
+            throw new BusinessException("Não foi possivel atualizar o progresso!");
         }
     }
 
@@ -56,7 +55,7 @@ public class ProgressServiceImpl implements ProgressService {
     @Override
     public ProgressDTO findById(Long id) {
         Progress progressEntity = progressRepository.findById(id)
-                .orElseThrow((()-> new BusinessException("Progresso não encontrado com o id informado: " + id)));
+                .orElseThrow((() -> new BusinessException("Progresso não encontrado com o id informado: " + id)));
         try {
             return toDto(progressEntity);
         } catch (Exception ex) {

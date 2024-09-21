@@ -13,6 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class GoalDTO {
 
+    private Long id;
     private String description;
     private Date targetDate;
     private boolean completed;

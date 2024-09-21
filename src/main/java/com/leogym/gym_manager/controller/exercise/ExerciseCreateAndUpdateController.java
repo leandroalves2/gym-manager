@@ -23,11 +23,14 @@ public class ExerciseCreateAndUpdateController {
 
     @PostMapping
     public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO exerciseDTO) {
-
-        exerciseService.saveOrUpdateExercise(exerciseDTO);
-        if(Objects.isNull(exerciseDTO.getId())) {
-            return new ResponseEntity<>("Exercicio cadastrado com sucesso!", HttpStatus.CREATED);
+        try {
+            exerciseService.saveOrUpdateExercise(exerciseDTO);
+            if (Objects.isNull(exerciseDTO.getId())) {
+                return new ResponseEntity<>("Exercicio cadastrado com sucesso!", HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>("Exercicio atualizado com sucesso!", HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
         }
-        return new ResponseEntity<>("Exercicio atualizado com sucesso!", HttpStatus.ACCEPTED);
     }
 }

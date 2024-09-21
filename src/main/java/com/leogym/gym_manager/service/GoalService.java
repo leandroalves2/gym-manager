@@ -6,7 +6,8 @@ import java.util.List;
 
 public interface GoalService {
 
-    void saveGoal(GoalDTO goalDTO);
+    void saveOrUpdateGoal(GoalDTO goalDTO);
     GoalDTO getGoalById(Long id);
     List<GoalDTO> listGoal();
+
 }

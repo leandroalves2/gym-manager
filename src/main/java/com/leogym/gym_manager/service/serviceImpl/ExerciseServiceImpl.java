@@ -27,13 +27,20 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void saveOrUpdateExercise(ExerciseDTO exerciseDTO) {
-        if(isNull(exerciseDTO.getId())){
-            Exercise exerciseEntity = new Exercise();
-            saveExercise(exerciseDTO, exerciseEntity);
-        } else {
+        if (isNull(exerciseDTO.getId())) {
+            try {
+                Exercise exerciseEntity = new Exercise();
+                saveExercise(exerciseDTO, exerciseEntity);
+            } catch (Exception e) {
+                throw new BusinessException("Não foi possivel cadastrar a meta!");
+            }
+        }
+        try {
             Exercise entity = repository.findById(exerciseDTO.getId())
                     .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + exerciseDTO.getId()));
             saveExercise(exerciseDTO, entity);
+        } catch (Exception e) {
+            throw new BusinessException("Não foi possivel cadastrar a meta!");
         }
     }
 
@@ -64,7 +71,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public ExerciseDTO findyByName(String name) {
         Exercise exerciseEntity = repository.findByName(name);
-        if (exerciseEntity == null){
+        if (exerciseEntity == null) {
             throw new BusinessException("Exercicio não encontrado com o nome: " + name);
         }
         try {

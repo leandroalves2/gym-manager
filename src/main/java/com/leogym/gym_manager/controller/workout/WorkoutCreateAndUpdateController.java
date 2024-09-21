@@ -22,11 +22,15 @@ public class WorkoutCreateAndUpdateController {
 
     @PostMapping
     public ResponseEntity<String> createWorkout(@RequestBody WorkoutDTO workoutDTO) {
-        workoutService.saveOrUpdateWorkout(workoutDTO);
-        if(Objects.isNull(workoutDTO.getId())) {
-            return new ResponseEntity<>("Treino cadastrado com sucesso!", HttpStatus.CREATED);
+        try {
+            workoutService.saveOrUpdateWorkout(workoutDTO);
+            if(Objects.isNull(workoutDTO.getId())) {
+                return new ResponseEntity<>("Treino cadastrado com sucesso!", HttpStatus.CREATED);
+            }
+            return new ResponseEntity<>("Treino atualizado com sucesso!", HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            throw new BusinessException(e.getMessage());
         }
-        return new ResponseEntity<>("Treino atualizado com sucesso!", HttpStatus.ACCEPTED);
     }
 
 }

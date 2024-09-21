@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Objects.isNull;
+
 @Service
 @AllArgsConstructor
 public class GoalServiceImpl implements GoalService {
@@ -20,14 +22,28 @@ public class GoalServiceImpl implements GoalService {
     private final GoalRepository goalRepository;
 
     @Override
-    public void saveGoal(GoalDTO goalDTO) {
+    public void saveOrUpdateGoal(GoalDTO goalDTO) {
+        if (isNull(goalDTO.getId())) {
+            try {
+                Goal goalEntity = new Goal();
+                saveGoal(goalDTO, goalEntity);
+            } catch (Exception e) {
+                throw new BusinessException("Não foi possivel cadastrar a meta!");
+            }
+        }
         try {
-            Goal goalEntity = new Goal();
-            goalMapper.dtoToEntity(goalDTO, goalEntity);
-            goalRepository.save(goalEntity);
+            Goal goalEntity = goalRepository.findById(goalDTO.getId())
+                    .orElseThrow(() -> new BusinessException("Meta não encontrada com o id: " + goalDTO.getId()));
+            saveGoal(goalDTO, goalEntity);
         } catch (Exception e) {
             throw new BusinessException("Não foi possivel cadastrar a meta!");
         }
+
+    }
+
+    private void saveGoal(GoalDTO goalDTO, Goal goalEntity) {
+        goalMapper.dtoToEntity(goalDTO, goalEntity);
+        goalRepository.save(goalEntity);
     }
 
     @Override
@@ -48,7 +64,7 @@ public class GoalServiceImpl implements GoalService {
         try {
             List<Goal> goalEntityList = goalRepository.findAll();
             List<GoalDTO> goalDTOList = new ArrayList<>();
-            for(Goal goal : goalEntityList) {
+            for (Goal goal : goalEntityList) {
                 GoalDTO goalDTO = new GoalDTO();
                 goalMapper.entityToDto(goal, goalDTO);
                 goalDTOList.add(goalDTO);

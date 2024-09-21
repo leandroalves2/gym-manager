@@ -41,11 +41,6 @@ public class GoalServiceImpl implements GoalService {
 
     }
 
-    private void saveGoal(GoalDTO goalDTO, Goal goalEntity) {
-        goalMapper.dtoToEntity(goalDTO, goalEntity);
-        goalRepository.save(goalEntity);
-    }
-
     @Override
     public GoalDTO getGoalById(Long id) {
         try {
@@ -75,4 +70,17 @@ public class GoalServiceImpl implements GoalService {
         }
     }
 
+    @Override
+    public void deleteGoalById(Long id) {
+        try {
+            goalRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new BusinessException("Não foi possivel listar as meta!");
+        }
+    }
+
+    private void saveGoal(GoalDTO goalDTO, Goal goalEntity) {
+        goalMapper.dtoToEntity(goalDTO, goalEntity);
+        goalRepository.save(goalEntity);
+    }
 }

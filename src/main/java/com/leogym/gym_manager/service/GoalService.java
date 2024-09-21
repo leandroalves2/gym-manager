@@ -9,5 +9,6 @@ public interface GoalService {
     void saveOrUpdateGoal(GoalDTO goalDTO);
     GoalDTO getGoalById(Long id);
     List<GoalDTO> listGoal();
+    void deleteGoalById(Long id);
 
 }

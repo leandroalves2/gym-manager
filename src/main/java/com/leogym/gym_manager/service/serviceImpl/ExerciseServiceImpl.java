@@ -3,6 +3,7 @@ package com.leogym.gym_manager.service.serviceImpl;
 import com.leogym.gym_manager.domain.dto.ExerciseDTO;
 import com.leogym.gym_manager.domain.entities.Exercise;
 import com.leogym.gym_manager.exception.BusinessException;
+import com.leogym.gym_manager.exception.NotFoundException;
 import com.leogym.gym_manager.mapper.ExerciseMapper;
 import com.leogym.gym_manager.repository.ExerciseRepository;
 import com.leogym.gym_manager.service.ExerciseService;
@@ -22,7 +23,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Autowired
     private final ExerciseMapper mapper;
 
-    private final ExerciseRepository repository;
+    private final ExerciseRepository exerciseRepository;
 
 
     @Override
@@ -36,7 +37,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             }
         }
         try {
-            Exercise entity = repository.findById(exerciseDTO.getId())
+            Exercise entity = exerciseRepository.findById(exerciseDTO.getId())
                     .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + exerciseDTO.getId()));
             saveExercise(exerciseDTO, entity);
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public List<ExerciseDTO> listExercice() {
         try {
-            List<Exercise> exerciseList = repository.findAll();
+            List<Exercise> exerciseList = exerciseRepository.findAll();
             List<ExerciseDTO> exerciseDTOList = new ArrayList<>();
             for (Exercise exercise : exerciseList) {
                 exerciseDTOList.add(toDto(exercise));
@@ -58,19 +59,27 @@ public class ExerciseServiceImpl implements ExerciseService {
         }
     }
 
-    public ExerciseDTO findById(Long id) {
-        Exercise exerciseEntity = repository.findById(id)
-                .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + id));
+    public ExerciseDTO findExerciseById(Long id) {
+        Exercise exerciseEntity = exerciseRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Exercise not found with the id: " + id));
         try {
-            return toDto(exerciseEntity);
+            ExerciseDTO exerciseDTO = new ExerciseDTO();
+
+            exerciseDTO.setId(exerciseEntity.getId());
+            exerciseDTO.setName(exerciseEntity.getName());
+            exerciseDTO.setDescription(exerciseEntity.getDescription());
+            exerciseDTO.setEquipment(exerciseEntity.getEquipment());
+            exerciseDTO.setMuscleGroup(exerciseEntity.getMuscleGroup());
+
+            return exerciseDTO;
         } catch (Exception ex) {
-            throw new BusinessException("Erro ao localizar o exercicio!");
+            throw new BusinessException("Error locating the exercises!");
         }
     }
 
     @Override
     public ExerciseDTO findyByName(String name) {
-        Exercise exerciseEntity = repository.findByName(name);
+        Exercise exerciseEntity = exerciseRepository.findByName(name);
         if (exerciseEntity == null) {
             throw new BusinessException("Exercicio não encontrado com o nome: " + name);
         }
@@ -84,7 +93,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteExerciseById(Long id) {
         try {
-            repository.deleteById(id);
+            exerciseRepository.deleteById(id);
         } catch (Exception ex) {
             throw new BusinessException("Erro ao deletar o exercicio!");
         }
@@ -93,8 +102,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     @Override
     public void deleteExerciseByName(String name) {
         try {
-            Exercise exerciseEntity = repository.findByName(name);
-            repository.deleteById(exerciseEntity.getId());
+            Exercise exerciseEntity = exerciseRepository.findByName(name);
+            exerciseRepository.deleteById(exerciseEntity.getId());
         } catch (Exception ex) {
             throw new BusinessException("Erro ao deletar o exercicio!");
         }
@@ -102,7 +111,7 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     private void saveExercise(ExerciseDTO exerciseDTO, Exercise exerciseEntity) {
         mapper.dtoToEntity(exerciseDTO, exerciseEntity);
-        repository.save(exerciseEntity);
+        exerciseRepository.save(exerciseEntity);
     }
 
     private ExerciseDTO toDto(Exercise exerciseEntity) {

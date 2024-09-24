@@ -28,7 +28,7 @@ public class ExerciseReadController {
     @GetMapping("/id/{id}")
     public ExerciseDTO findById(@PathVariable Long id) {
         try {
-            return exerciseService.findById(id);
+            return exerciseService.findExerciseById(id);
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage());
         }

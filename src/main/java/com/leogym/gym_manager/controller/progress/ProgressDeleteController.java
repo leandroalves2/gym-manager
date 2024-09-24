@@ -17,7 +17,7 @@ public class ProgressDeleteController {
     private final ProgressService progressService;
 
     @DeleteMapping("/delete/id/{id}")
-    public ResponseEntity<String> deleteProgress(@PathVariable Long id) {
+    public ResponseEntity<String> removeProgressById(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(progressService.deleteProgress(id));
         } catch (Exception e) {

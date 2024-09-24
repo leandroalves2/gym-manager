@@ -17,7 +17,7 @@ public class ExerciseDeleteController {
     private final ExerciseService exerciseService;
 
     @DeleteMapping("/delete/id/{id}")
-    public ResponseEntity<String> deleteExerciseId (@PathVariable Long id) {
+    public ResponseEntity<String> removeExerciseById (@PathVariable Long id) {
         try {
             exerciseService.deleteExerciseById(id);
             return ResponseEntity.ok("Exercicio deletado com sucesso!");
@@ -27,7 +27,7 @@ public class ExerciseDeleteController {
     }
 
     @DeleteMapping("/delete/name/{name}")
-    public ResponseEntity<String> deleteExerciseName (@PathVariable String name) {
+    public ResponseEntity<String> removeExerciseByName (@PathVariable String name) {
         try {
             exerciseService.deleteExerciseByName(name);
             return ResponseEntity.ok("Exercicio deletado com sucesso!");

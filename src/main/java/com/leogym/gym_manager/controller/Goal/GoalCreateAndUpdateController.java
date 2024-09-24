@@ -16,12 +16,12 @@ import static java.util.Objects.isNull;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/goal")
-public class GoalSaveOrUpdateController {
+public class GoalCreateAndUpdateController {
 
     private final GoalService goalService;
 
     @PostMapping
-    public ResponseEntity<String> saveGoal(@RequestBody GoalDTO goalDTO) {
+    public ResponseEntity<String> upsertGoal(@RequestBody GoalDTO goalDTO) {
         try {
             goalService.saveOrUpdateGoal(goalDTO);
             if (isNull(goalDTO.getId())) {

@@ -31,7 +31,7 @@ public class ProgressReadController {
     @GetMapping("/id/{id}")
     public ResponseEntity<ProgressDTO> findProgressById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(progressService.findById(id));
+            return ResponseEntity.ok(progressService.findrogressById(id));
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage());
         }

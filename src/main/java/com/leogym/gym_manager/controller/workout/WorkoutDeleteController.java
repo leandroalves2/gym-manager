@@ -17,7 +17,7 @@ public class WorkoutDeleteController {
     private final WorkoutService  workoutService;
 
     @DeleteMapping("/delete/id/{id}")
-    public ResponseEntity<String> deleteById(@PathVariable Long id) {
+    public ResponseEntity<String> removeWorkoutById(@PathVariable Long id) {
         try {
 
             return ResponseEntity.ok(workoutService.deleteWorkoutById(id));

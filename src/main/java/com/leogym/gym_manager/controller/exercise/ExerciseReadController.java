@@ -16,7 +16,7 @@ public class ExerciseReadController {
     private final ExerciseService exerciseService;
 
     @GetMapping("/list")
-    public List<ExerciseDTO> ListController() {
+    public List<ExerciseDTO> listExercises() {
 
         try {
             return exerciseService.listExercice();
@@ -26,7 +26,7 @@ public class ExerciseReadController {
     }
 
     @GetMapping("/id/{id}")
-    public ExerciseDTO findById(@PathVariable Long id) {
+    public ExerciseDTO findxerciseById(@PathVariable Long id) {
         try {
             return exerciseService.findExerciseById(id);
         } catch (BusinessException e) {
@@ -35,9 +35,9 @@ public class ExerciseReadController {
     }
 
     @GetMapping("/name/{name}")
-    public ExerciseDTO findByName(@PathVariable String name) {
+    public ExerciseDTO findxerciseByName(@PathVariable String name) {
         try {
-            return exerciseService.findyByName(name);
+            return exerciseService.findyExerciseByName(name);
         } catch (BusinessException e) {
             throw new BusinessException(e.getMessage());
         }

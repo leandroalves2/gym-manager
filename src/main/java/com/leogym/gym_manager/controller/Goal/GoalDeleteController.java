@@ -17,7 +17,7 @@ public class GoalDeleteController {
     private final GoalService goalService;
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<String> deleteGoal(@PathVariable Long id) {
+    public ResponseEntity<String> removeGoalById(@PathVariable Long id) {
         try {
             goalService.deleteGoalById(id);
             return ResponseEntity.ok("Meta deletada com sucesso!");

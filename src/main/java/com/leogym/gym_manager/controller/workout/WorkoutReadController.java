@@ -31,7 +31,7 @@ public class WorkoutReadController {
     @GetMapping("/id/{id}")
     public ResponseEntity<WorkoutDTO> getWorkoutById(@PathVariable Long id) {
         try {
-            return ResponseEntity.ok(workoutService.findById(id));
+            return ResponseEntity.ok(workoutService.findWorkoutById(id));
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class WorkoutReadController {
     @GetMapping("/name/{name}")
     public ResponseEntity<WorkoutDTO> getWorkoutByName(@PathVariable String name) {
         try {
-            return ResponseEntity.ok(workoutService.findByName(name));
+            return ResponseEntity.ok(workoutService.findWorkoutByName(name));
         } catch (Exception e) {
             throw new BusinessException(e.getMessage());
         }

@@ -8,8 +8,8 @@ public interface WorkoutService {
 
     void saveOrUpdateWorkout(WorkoutDTO workoutDTO);
     List<WorkoutDTO> listWorkout();
-    WorkoutDTO findById(Long id);
-    WorkoutDTO findByName(String name);
+    WorkoutDTO findWorkoutById(Long id);
+    WorkoutDTO findWorkoutByName(String name);
     String deleteWorkoutById(Long id);
 
 }

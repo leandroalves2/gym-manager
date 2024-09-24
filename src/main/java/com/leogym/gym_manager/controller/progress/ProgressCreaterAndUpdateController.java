@@ -21,7 +21,7 @@ public class ProgressCreaterAndUpdateController {
     private final ProgressService progressService;
 
     @PostMapping
-    public ResponseEntity<String> PersistController(@Valid @RequestBody ProgressDTO progressDTO) {
+    public ResponseEntity<String> upsertProgress(@Valid @RequestBody ProgressDTO progressDTO) {
         progressService.saveOrUpdateProgress(progressDTO);
         if(Objects.isNull(progressDTO.getId())) {
             return new ResponseEntity<>("Progresso cadastrado com sucesso!", HttpStatus.CREATED);

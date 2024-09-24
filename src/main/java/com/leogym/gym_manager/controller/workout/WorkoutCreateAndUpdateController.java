@@ -21,7 +21,7 @@ public class WorkoutCreateAndUpdateController {
     private final WorkoutService workoutService;
 
     @PostMapping
-    public ResponseEntity<String> createWorkout(@RequestBody WorkoutDTO workoutDTO) {
+    public ResponseEntity<String> upsertWorkout(@RequestBody WorkoutDTO workoutDTO) {
         try {
             workoutService.saveOrUpdateWorkout(workoutDTO);
             if(Objects.isNull(workoutDTO.getId())) {

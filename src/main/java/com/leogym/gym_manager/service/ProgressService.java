@@ -8,6 +8,6 @@ public interface ProgressService {
 
     void saveOrUpdateProgress(ProgressDTO dto);
     List<ProgressDTO> listProgress();
-    ProgressDTO findById(Long id);
+    ProgressDTO findrogressById(Long id);
     String deleteProgress(Long id);
 }

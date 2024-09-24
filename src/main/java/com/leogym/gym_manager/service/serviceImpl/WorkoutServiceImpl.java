@@ -31,9 +31,9 @@ public class WorkoutServiceImpl implements WorkoutService {
                 throw new BusinessException("Não foi possivel cadastrar a meta!");
             }
         }
+        Workout workoutEntity = workoutRepository.findById(workoutDTO.getId())
+                .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + workoutDTO.getId()));
         try {
-            Workout workoutEntity = workoutRepository.findById(workoutDTO.getId())
-                    .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + workoutDTO.getId()));
             save(workoutDTO, workoutEntity);
         } catch (Exception e) {
             throw new BusinessException("Não foi possivel cadastrar a meta!");
@@ -58,14 +58,14 @@ public class WorkoutServiceImpl implements WorkoutService {
     }
 
     @Override
-    public WorkoutDTO findById(Long id) {
+    public WorkoutDTO findWorkoutById(Long id) {
         Workout workoutEntity = workoutRepository.findById(id)
                 .orElseThrow(() -> new BusinessException("Treino não encontrado com o id: " + id));
         return toDto(workoutEntity);
     }
 
     @Override
-    public WorkoutDTO findByName(String name) {
+    public WorkoutDTO findWorkoutByName(String name) {
         Workout workoutEntity = workoutRepository.findByName(name);
         if (workoutEntity == null) {
             throw new BusinessException("Treino não encontrado com o nome: " + name);

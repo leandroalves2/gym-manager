@@ -22,7 +22,7 @@ public class ExerciseCreateAndUpdateController {
     private final ExerciseService exerciseService;
 
     @PostMapping
-    public ResponseEntity<String> PersistController(@RequestBody @Valid ExerciseDTO exerciseDTO) {
+    public ResponseEntity<String> upsertExercise(@RequestBody @Valid ExerciseDTO exerciseDTO) {
         try {
             exerciseService.saveOrUpdateExercise(exerciseDTO);
             if (Objects.isNull(exerciseDTO.getId())) {

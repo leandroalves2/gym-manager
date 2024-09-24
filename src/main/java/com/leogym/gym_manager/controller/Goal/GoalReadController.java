@@ -17,7 +17,7 @@ public class GoalReadController {
     private final GoalService goalService;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<GoalDTO> findByIdController(@PathVariable Long id) {
+    public ResponseEntity<GoalDTO> findGoalByIdController(@PathVariable Long id) {
         try {
             return ResponseEntity.ok(goalService.getGoalById(id));
         } catch (Exception e) {
@@ -26,7 +26,7 @@ public class GoalReadController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<GoalDTO>> findAllController() {
+    public ResponseEntity<List<GoalDTO>> findAllGoalController() {
         try {
             return ResponseEntity.ok(goalService.listGoal());
         } catch (Exception e) {

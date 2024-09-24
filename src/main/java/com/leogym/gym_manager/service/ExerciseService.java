@@ -10,7 +10,7 @@ public interface ExerciseService {
 
     List<ExerciseDTO> listExercice();
     ExerciseDTO findExerciseById(Long id);
-    ExerciseDTO findyByName(String name);
+    ExerciseDTO findyExerciseByName(String name);
     void deleteExerciseById(Long id);
     void deleteExerciseByName(String name);
 

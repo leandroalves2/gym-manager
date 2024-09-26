@@ -28,12 +28,16 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public void saveOrUpdateExercise(ExerciseDTO exerciseDTO) {
+        Exercise testName = exerciseRepository.findByName(exerciseDTO.getName());
+        if(testName != null) {
+            throw new BusinessException("Não foi possivel cadastrar o exercicio, nome já existe!");
+        }
         if (isNull(exerciseDTO.getId())) {
             try {
                 Exercise exerciseEntity = new Exercise();
                 saveExercise(exerciseDTO, exerciseEntity);
             } catch (Exception e) {
-                throw new BusinessException("Não foi possivel cadastrar a meta!");
+                throw new BusinessException("Não foi possivel cadastrar o exercicio !");
             }
         } else {
             Exercise entity = exerciseRepository.findById(exerciseDTO.getId())
@@ -41,7 +45,7 @@ public class ExerciseServiceImpl implements ExerciseService {
             try {
                 saveExercise(exerciseDTO, entity);
             } catch (Exception e) {
-                throw new BusinessException("Não foi possivel cadastrar a meta!");
+                throw new BusinessException("Não foi possivel cadastrar o exercicio!");
             }
         }
     }

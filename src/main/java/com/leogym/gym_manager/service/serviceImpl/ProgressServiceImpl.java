@@ -26,17 +26,19 @@ public class ProgressServiceImpl implements ProgressService {
     @Override
     public void saveOrUpdateProgress(ProgressDTO progressDTO) {
         if (isNull(progressDTO.getId())) {
+            Progress progressEntity = new Progress();
+            progressMapper.dtoToEntity(progressDTO, progressEntity);
             try {
-                Progress progressEntity = new Progress();
-                save(progressDTO, progressEntity);
+                progressRepository.save(progressEntity);
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel salvar o progresso!");
             }
         } else {
             Progress progressEntity = progressRepository.findById(progressDTO.getId())
                     .orElseThrow((() -> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
+            progressMapper.dtoToEntity(progressDTO, progressEntity);
             try {
-                save(progressDTO, progressEntity);
+                progressRepository.save(progressEntity);
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel atualizar o progresso!");
             }

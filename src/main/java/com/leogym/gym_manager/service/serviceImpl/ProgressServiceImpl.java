@@ -32,13 +32,14 @@ public class ProgressServiceImpl implements ProgressService {
             } catch (Exception ex) {
                 throw new BusinessException("Não foi possivel salvar o progresso!");
             }
-        }
-        Progress progressEntity = progressRepository.findById(progressDTO.getId())
-                .orElseThrow((() -> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
-        try {
-            save(progressDTO, progressEntity);
-        } catch (Exception ex) {
-            throw new BusinessException("Não foi possivel atualizar o progresso!");
+        } else {
+            Progress progressEntity = progressRepository.findById(progressDTO.getId())
+                    .orElseThrow((() -> new BusinessException("Progresso não encontrado com o id informado: " + progressDTO.getId())));
+            try {
+                save(progressDTO, progressEntity);
+            } catch (Exception ex) {
+                throw new BusinessException("Não foi possivel atualizar o progresso!");
+            }
         }
     }
 

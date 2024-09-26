@@ -23,5 +23,8 @@ public class Progress {
     private double weight;
     private int repetitions;
 
+    @ManyToOne
+    @JoinColumn(name = "workout_id")
+    private Workout workout;
 
 }

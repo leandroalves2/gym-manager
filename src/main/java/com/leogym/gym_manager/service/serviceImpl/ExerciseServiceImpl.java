@@ -35,13 +35,14 @@ public class ExerciseServiceImpl implements ExerciseService {
             } catch (Exception e) {
                 throw new BusinessException("Não foi possivel cadastrar a meta!");
             }
-        }
-        Exercise entity = exerciseRepository.findById(exerciseDTO.getId())
-                .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + exerciseDTO.getId()));
-        try {
-            saveExercise(exerciseDTO, entity);
-        } catch (Exception e) {
-            throw new BusinessException("Não foi possivel cadastrar a meta!");
+        } else {
+            Exercise entity = exerciseRepository.findById(exerciseDTO.getId())
+                    .orElseThrow(() -> new BusinessException("Exercício não encontrado com o id: " + exerciseDTO.getId()));
+            try {
+                saveExercise(exerciseDTO, entity);
+            } catch (Exception e) {
+                throw new BusinessException("Não foi possivel cadastrar a meta!");
+            }
         }
     }
 
